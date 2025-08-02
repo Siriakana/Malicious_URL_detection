@@ -1,100 +1,97 @@
-# views.py
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-import numpy as np
-import pickle
-import os
-from django.conf import settings
+from django.views import View
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import UserRegisterModel
 
-def UserHome(request):
-    return render(request, 'users/userhome.html')
+#========================================================================================================
+class UserRegistrationView(View):
+    template_name = 'admins/register.html'
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['pswd1']
 
-def training(request):
-    import numpy as np
-    import pandas as pd
-    from sklearn.model_selection import train_test_split
-    from sklearn.preprocessing import LabelEncoder
-    from tensorflow.keras.models import Sequential
-    from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, Embedding
-    from tensorflow.keras.preprocessing.text import Tokenizer
-    from tensorflow.keras.preprocessing.sequence import pad_sequences
-    from django.shortcuts import render
+        # Check if the username already exists
+        if UserRegisterModel.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists')
+            return render(request, self.template_name)
 
-    dataset = pd.read_csv(r'C:\Users\Admin\Desktop\CODE\Phishing_Url\media\malicious_balanced_dataset.csv')
+        # Check if the email already exists
+        if UserRegisterModel.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists')
+            return render(request, self.template_name)
 
-    urls = dataset['url']
-    labels = dataset['status']
+        # If both username and email are unique, create a new user
+        user = UserRegisterModel.objects.create(
+            username=username,
+            email=email,
+            password=password
+        )
+        user.save()
+        messages.success(request, 'User registered successfully')
 
-    label_encoder = LabelEncoder()
-    y = label_encoder.fit_transform(labels)
+        return redirect('register')   
 
-    tokenizer = Tokenizer(char_level=True)
-    tokenizer.fit_on_texts(urls)
+#==============================================================================================================
 
-    X = tokenizer.texts_to_sequences(urls)
-    max_length = 200
-    X = pad_sequences(X, maxlen=max_length, padding='post')
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    model = Sequential()
-    model.add(Embedding(input_dim=len(tokenizer.word_index) + 1, output_dim=50, input_length=max_length))
-    model.add(Conv1D(filters=128, kernel_size=5, activation='relu'))
-    model.add(MaxPooling1D(pool_size=2))
-    model.add(Dropout(0.5))
-    model.add(Flatten())
-    model.add(Dense(64, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(1, activation='sigmoid'))
-
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-    history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
-
-    loss, accuracy = model.evaluate(X_test, y_test)
-
-    model.save('malicious_url_cnn_model.h5')
-
-    context = {
-        'accuracy': f'{accuracy * 100:.2f}',
-        'loss': f'{loss:.4f}',
-    }
-    return render(request, 'users/training.html', context)
-
-def prediction(request):
-    from tensorflow.keras.models import load_model
-    from tensorflow.keras.preprocessing.text import Tokenizer
-    from tensorflow.keras.preprocessing.sequence import pad_sequences
-    import numpy as np
-    from django.shortcuts import render
-
-    # Load the trained model
-    model = load_model(r'C:\Users\Admin\Desktop\CODE\Phishing_Url\malicious_url_cnn_model.h5')
-
+def AdminLoginCheck(request):
     if request.method == 'POST':
-        url = request.POST.get('url')
+        usrid = request.POST.get('username')
+        pswd = request.POST.get('pswd')
+        print("User ID is = ", usrid)
+        if usrid == 'admin' and pswd == 'admin':
+            return redirect('adminhome')
+        else:
+            messages.success(request, 'Please Check Your Login Details')
+    return render(request, 'admins/adminlogin.html', {})
 
-        # Tokenizer settings used in training
-        tokenizer = Tokenizer(char_level=True)
-        tokenizer.fit_on_texts([url])
-        max_length = 200
 
-        # Preprocess the URL
-        X = tokenizer.texts_to_sequences([url])
-        X = pad_sequences(X, maxlen=max_length, padding='post')
+#============================================================================================
 
-        # Make the prediction
-        prediction = model.predict(X)
-        prediction = 1 if prediction >= 0.5 else 0
+ 
+def UserLoginCheck(request):
+    if request.method == 'POST':
+        usrid = request.POST.get('username')
+        password = request.POST.get('pswd')
+        print("User ID is = ", usrid)
+        try:
+            user = UserRegisterModel.objects.get(username=usrid, password = password )
+            if user.is_active:    
+                return render(request, 'users/userbase.html')
+            else:
+                messages.success(request, 'User is not activated, Permissions denined..')
+                return render(request, 'admins/login.html', {})
+        except:
+            messages.error(request,'Invalid Crediatials')
+            return render(request, 'admins/login.html', {})
+            
+    return render(request, 'admins/login.html') 
 
-        # Map prediction to label
-        prediction_label = 'Malicious' if prediction == 1 else 'Safe'
+#====================================================================================================
 
-        context = {
-            'url': url,
-            'prediction': prediction_label,
-        }
+def AdminHomePage(request):
+    data = UserRegisterModel.objects.all()
+    return render(request, 'admins/AdminHome.html', {'data':data})
 
-        return render(request, 'users/prediction.html', context)
+#===================================================================================================
 
-    return render(request, 'users/prediction.html')
+def UserActivateFunction(request, pk):
+    user = UserRegisterModel.objects.get(id=pk)
+    user.is_active = True
+    user.save()
+    return redirect(AdminHomePage)
+
+#=======================================================================================================
+
+def UserDeactivateFunction(request, pk):
+    user = UserRegisterModel.objects.get(id=pk)
+    user.is_active = False
+    user.save()
+    return redirect(AdminHomePage)
+
+#==========================================================================================================
+
+def home1(request):
+    return render(request,'home.html') 
