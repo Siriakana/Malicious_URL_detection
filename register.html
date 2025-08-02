@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Form with Validation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://img.freepik.com/free-vector/abstract-secure-technology-background_23-2148357087.jpg?t=st=1738864056~exp=1738867656~hmac=b87f6402ec2235823bf1dc263cbe008775d7749dd70d2297ceab6cea5f57ab47&w=900') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding-left: 50px; /* Container is aligned to the left */
+        }
+
+        .container {
+            background: rgba(31, 9, 85, 0.4);
+            padding:10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(47, 120, 255, 0.861);
+            width: 350px; /* Adjusted container width */
+            color: rgb(93, 225, 232) ;
+            /* height: 400px; */
+            text-align: center;
+            margin-top: 100px;
+            margin-left: 10px;
+            font-size: 18px; /* Optional: Adjust the top margin for alignment */
+        }
+
+        
+        
+
+        .form-control {
+    background: rgba(235, 240, 240, 0.338);
+    border: 2px solid rgba(0, 200, 255, 0.6);
+    color: #00c8ff;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
+}
+
+.form-control:focus {
+    background: rgba(72, 174, 167, 0.605);
+    border-color: #00c8ff;
+    box-shadow: 0 0 15px #00c8ff, 0 0 30px #00c8ff;
+    color: #ffffff;
+}
+
+/* Submit Button */
+.btn-primary {
+    background: linear-gradient(45deg, #0072ff, #00c8ff);
+    border: none;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #00c8ff, #0072ff);
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.9);
+    transform: scale(1.05);
+}
+
+
+        .sign-in-link {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .sign-in-link a {
+            color: #0072ff;
+            text-decoration: none;
+        }
+
+        .sign-in-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Tooltip position */
+        .tooltip-custom {
+            position: absolute;
+            top: 50%;
+            right: -250px;
+            /* Adjust this value to control horizontal position */
+            transform: translateY(-50%);
+        }
+
+        /* Project title styling */
+        .project-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 44px;
+            font-weight: bold;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
+            border-bottom: 2px solid rgba(0, 200, 255, 0.7);
+            animation: neonGlow 2s infinite alternate;
+        }
+
+        @keyframes neonGlow {
+            0% { box-shadow: 0 0 10px rgba(0, 200, 255, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(0, 200, 255, 0.8); }
+        }
+
+        .navbar .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #00c8ff;
+            text-shadow: 0 0 10px #00c8ff, 0 0 20px #00c8ff;
+            letter-spacing: 1px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar ul li a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #00c8ff;
+            transition: 0.3s;
+        }
+
+        .navbar ul li a:hover::before {
+            width: 100%;
+            left: 0;
+        }
+
+        .navbar ul li a:hover {
+            color: #00c8ff;
+            text-shadow: 0 0 10px #00c8ff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">MalDetectAI</div>
+        <ul>
+            <li><a href="{% url 'home1' %}">Home</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'login' %}">UserLogin</a></li>
+            <li><a href="{% url 'adminlogin' %}">AdminLogin</a></li>
+        </ul>
+    </nav>
+
+    <!-- <div class="project-title">Malicious
+        URL Detection with Feature Selection</div> -->
+
+    <div class="container">
+        <h2 class="text-center mb-6" style="color: #ffffff;" ><b>Create account, join now!</b></h2>
+
+        <!-- Tooltip Trigger -->
+        <!-- <button type="button" class="btn btn-secondary tooltip-custom" data-bs-toggle="tooltip"
+            data-bs-placement="right" title="Fill in all fields correctly to sign up."
+            onclick="window.location.href='{% url 'adminlogin' %}'">
+            Admin Login
+        </button> -->
+        
+
+        <!-- Django Messages -->
+        {% if messages %}
+        <div class="mb-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form id="signupForm" novalidate method="post">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="name"><b>User Name</b></label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name" name="username"
+                    required>
+                <div class="invalid-feedback"><b>Please enter your name.</b></div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="email"><b>Email address</b></label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email"
+                    required>
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="password"><b>Password</b></label>
+                <input type="password" class="form-control" id="password" placeholder="Password" name="pswd1" required
+                    minlength="6">
+                <div class="invalid-feedback">Password must be at least 6 characters long.</div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="confirmPassword"><b>Confirm Password</b></label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password"
+                    name="pswd2" required>
+                <div class="invalid-feedback">Passwords do not match.</div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            <div class="sign-in-link">
+                <p style="color: #ffffff;">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // Custom form validation
+        (function () {
+            'use strict';
+            const form = document.getElementById('signupForm');
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
+                    event.preventDefault();
+                    document.getElementById('confirmPassword').classList.add('is-invalid');
+                } else {
+                    alert('Form submitted successfully!');
+                }
+                form.classList.add('was-validated');
+            }, false);
+        })();
+
+        // Enable Bootstrap tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

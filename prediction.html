@@ -1,0 +1,210 @@
+{% extends 'users/userbase.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malicious URL Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(133, 155, 231, 0.7);
+            max-width: 420px;
+            margin: 0 auto;
+            text-shadow: 2px 2px 4px #000000;
+            background: rgba(0, 0, 0, 0.438);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(133, 155, 231, 0.8);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(133, 155, 231, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(133, 155, 231, 0.9); }
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 32px;
+        }
+
+        input[type="text"] {
+        width: 80%;
+        padding: 14px;
+        margin: 15px 5px;
+        border: 2px solid rgba(0, 255, 255, 0.6);
+        border-radius: 8px;
+        font-size: 16px;
+        background: rgba(0, 255, 255, 0.1);
+        color: #00ffff;
+        text-align: center;
+        outline: none;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    }
+
+    input[type="text"]::placeholder {
+        color: rgba(0, 255, 255, 0.6);
+        text-align: center;
+        font-style: italic;
+    }
+
+    input[type="text"]:focus {
+        background: rgba(0, 255, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 255, 255, 1);
+        border-color: rgba(0, 255, 255, 1);
+    }
+
+
+        button {
+        background: linear-gradient(135deg, #0044ff, #00c8ff);
+        color: white;
+        padding: 14px ;
+        margin-left: 35px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+        width: 80%;
+        display: block;
+        text-align: center;
+        text-transform: uppercase;
+        /* letter-spacing: 1px; */
+        box-shadow: 0 0 15px rgb(59, 132, 120);
+    }
+        button:hover {
+            background: linear-gradient(135deg, #0044ff, #00c8ff);
+            box-shadow: 0 0 10px #00c8ff;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .malicious {
+    position: relative;
+    background: rgba(255, 0, 0, 0.15);
+    color: #ff0000;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    backdrop-filter: blur(12px);
+    border: 3px solid rgba(255, 0, 0, 0.8);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.9), inset 0 0 20px rgba(255, 0, 0, 0.4);
+    animation: glitch 2s infinite alternate ease-in-out, pulseRed 1.5s infinite alternate;
+    overflow: hidden;
+}
+
+.safe {
+    position: relative;
+    font-family: 'Times New Roman', Times, serif;
+    background: rgba(0, 255, 0, 0.15);
+    color: #00ff00;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    border: 3px solid rgba(0, 255, 0, 0.8);
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.9), inset 0 0 20px rgba(0, 255, 0, 0.4);
+    animation: glitch 2s infinite alternate ease-in-out, pulseGreen 1.5s infinite alternate;
+    overflow: hidden;
+}
+
+/* Neon Glow Animation */
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
+    100% { box-shadow: 0 0 40px rgba(255, 0, 0, 1); }
+}
+
+@keyframes pulseGreen {
+    0% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); }
+    100% { box-shadow: 0 0 40px rgba(0, 255, 0, 1); }
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(1px, -1px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Lightning Strike Hover */
+.malicious:hover, .safe:hover {
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), inset 0 0 25px rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Moving Glow Effect */
+.malicious::before, .safe::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+    0% { top: -100%; }
+    100% { top: 100%; }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2><b>Malicious URL Detection</b></h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" id="url" name="url" placeholder="Enter URL to check" required>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+        <br>
+        <div class="{% if prediction == 'Malicious' %}malicious{% else %}safe{% endif %}">
+            <!-- <h3><b>Prediction: {{ prediction }} URL</b></h3> -->
+            <h3>
+                {% if prediction == 'Malicious' %}
+                    <b>Malicious URL</b> ❌
+                {% else %}
+                    <b>Safe URL</b> ✅
+                {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock %}

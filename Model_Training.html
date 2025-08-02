@@ -1,0 +1,127 @@
+{% extends 'users/userbase.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            color: #333; /* Dark text color for better readability */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            color: #333; /* Ensure text color is dark for contrast */
+        }
+        th {
+            background-color: #f4f4f4; /* Light grey background for headers */
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light grey background for even rows */
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff; /* White background for odd rows */
+        }
+        tbody tr:hover {
+            background-color: #e0e0e0; /* Slightly darker grey for row hover effect */
+        }
+        h1 {
+            background-color: #007bff; /* Background color for h1 */
+            color: #ffffff; /* Text color for contrast */
+            padding: 10px; /* Padding around the text */
+            text-align: center; /* Center align the text */
+            border-radius: 5px; /* Optional: Rounded corners for the background */
+        }
+    </style>
+</head>
+<body>
+    <!-- Body Content -->
+    <div class="container">
+        <h1>ML Model Performance</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ML Model</th>
+                    <th>Accuracy</th>
+                    <th>F1 Score</th>
+                    <th>Recall</th>
+                    <th>Precision</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Logistic Regression</td>
+                    <td>0.934</td>
+                    <td>0.941</td>
+                    <td>0.943</td>
+                    <td>0.927</td>
+                </tr>
+                <tr>
+                    <td>K-Nearest Neighbors</td>
+                    <td>0.956</td>
+                    <td>0.961</td>
+                    <td>0.991</td>
+                    <td>0.989</td>
+                </tr>
+                <tr>
+                    <td>Support Vector Machine</td>
+                    <td>0.964</td>
+                    <td>0.968</td>
+                    <td>0.980</td>
+                    <td>0.965</td>
+                </tr>
+                <tr>
+                    <td>Naive Bayes Classifier</td>
+                    <td>0.605</td>
+                    <td>0.454</td>
+                    <td>0.292</td>
+                    <td>0.997</td>
+                </tr>
+                <tr>
+                    <td>Decision Tree</td>
+                    <td>0.959</td>
+                    <td>0.963</td>
+                    <td>0.991</td>
+                    <td>0.993</td>
+                </tr>
+                <tr>
+                    <td>Random Forest</td>
+                    <td>0.966</td>
+                    <td>0.969</td>
+                    <td>0.994</td>
+                    <td>0.988</td>
+                </tr>
+                <tr>
+                    <td>Gradient Boosting Classifier</td>
+                    <td>0.974</td>
+                    <td>0.977</td>
+                    <td>0.994</td>
+                    <td>0.986</td>
+                </tr>
+                <tr>
+                    <td>CatBoost Classifier</td>
+                    <td>0.972</td>
+                    <td>0.975</td>
+                    <td>0.994</td>
+                    <td>0.989</td>
+                </tr>
+                <tr>
+                    <td>Multi-layer Perceptron</td>
+                    <td>0.967</td>
+                    <td>0.970</td>
+                    <td>0.987</td>
+                    <td>0.990</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+{% endblock %}

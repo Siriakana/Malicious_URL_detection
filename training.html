@@ -1,0 +1,55 @@
+{% extends 'users/userbase.html' %}
+{% block content %}
+<!-- users/training.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Malicious URL Detection - Model Training</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+            text-shadow: 2px 2px 4px #000000;
+            background: rgba(0, 0, 0, 0.5); 
+            box-shadow: 0 0 20px 10px rgb(133, 155, 231);
+        }
+        h1 {
+            color: #ffffff;
+        }
+        p {
+            font-size: 18px;
+            color: #ffffff;
+        }
+        .btn {
+            background-color: #1232d6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #1c77d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Model Training Completed</h1>
+        <p><strong>Training Accuracy:</strong> {{ accuracy }}%</p>
+        <p><strong>Training Loss:</strong> {{ loss }}</p>
+        <button class="btn" onclick="window.location.href='/'">Go to Home</button>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,222 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MalDetectAI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://img.freepik.com/free-vector/abstract-secure-technology-background_23-2148357087.jpg?t=st=1738864056~exp=1738867656~hmac=b87f6402ec2235823bf1dc263cbe008775d7749dd70d2297ceab6cea5f57ab47&w=900') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        /* 🔥 Modern Neon Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
+            border-bottom: 2px solid rgba(0, 200, 255, 0.7);
+            animation: neonGlow 2s infinite alternate;
+        }
+
+        @keyframes neonGlow {
+            0% { box-shadow: 0 0 10px rgba(0, 200, 255, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(0, 200, 255, 0.8); }
+        }
+
+        .navbar .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #00c8ff;
+            text-shadow: 0 0 10px #00c8ff, 0 0 20px #00c8ff;
+            letter-spacing: 1px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px -15px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar ul li a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #00c8ff;
+            transition: 0.3s;
+        }
+
+        .navbar ul li a:hover::before {
+            width: 100%;
+            left: 0;
+        }
+
+        .navbar ul li a:hover {
+            color: #00c8ff;
+            text-shadow: 0 0 10px #00c8ff;
+        }
+
+        /* Section Styling */
+        .section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 80px 20px;
+        }
+
+        /* #home h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 10px #00c8ff, 0 0 20px #00c8ff;
+        } */
+        @keyframes cyberGlitch {
+    0% { text-shadow: 3px 3px 0px #ff0000, -3px -3px 0px #00c8ff; transform: skewX(-5deg); }
+    25% { text-shadow: -3px -3px 0px #ff0000, 3px 3px 0px #00c8ff; transform: skewX(5deg); }
+    50% { text-shadow: 5px -5px 0px #ff0000, -5px 5px 0px #00c8ff; transform: skewX(-3deg); }
+    75% { text-shadow: -5px 5px 0px #ff0000, 5px -5px 0px #00c8ff; transform: skewX(3deg); }
+    100% { text-shadow: 3px 3px 0px #ff0000, -3px -3px 0px #00c8ff; transform: skewX(-5deg); }
+}
+
+@keyframes waveMotion {
+    0% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-2deg); }
+    50% { transform: translateY(5px) rotate(2deg); }
+    75% { transform: translateY(-3px) rotate(-1deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes neonPulse {
+    0% { text-shadow: 0 0 5px #00c8ff, 0 0 15px #00c8ff; }
+    50% { text-shadow: 0 0 30px #00c8ff, 0 0 50px #00c8ff; }
+    100% { text-shadow: 0 0 5px #00c8ff, 0 0 15px #00c8ff; }
+}
+
+@keyframes typingEffect {
+    0% { width: 0; }
+    50% { width: 100%; }
+    100% { width: 100%; }
+}
+
+@keyframes pixelBreak {
+    0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+    50% { opacity: 0.3; transform: scale(1.2); filter: blur(2px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+}
+
+#home h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-shadow: 0 0 10px #00c8ff, 0 0 20px #00c8ff;
+    border-right: 3px solid #00c8ff;
+    
+    animation: cyberGlitch 0.3s infinite alternate, 
+               waveMotion 3s ease-in-out infinite, 
+               neonPulse 2s infinite alternate, 
+               typingEffect 4s steps(40, end) forwards,
+               pixelBreak 5s infinite alternate;
+}
+
+
+        #about h2, #services h2, #contact h2 {
+            color: #00c8ff;
+            font-size: 30px;
+        }
+
+        #about p, #services p, #contact p {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🚀 Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">MalDetectAI</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">AboutUs</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="{% url 'login' %}">UserLogin</a></li>
+            <li><a href="{% url 'adminlogin' %}">AdminLogin</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <div id="home" class="section">
+        <h1>Malicious URL Detection - A Deep Learning Approach using CNN</h1>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="section">
+        <h2>About Us:</h2>
+        <p>We are a team dedicated to enhancing cybersecurity using deep learning. Our project, "Malicious URL Detection – A Deep Learning Approach using CNN," detects harmful links by analyzing URL patterns. Using CNN, we provide a real-time solution to protect users from cyber threats, ensuring a safer online experience.</p>
+    </div>
+
+    <!-- Services Section -->
+    <div id="services" class="section">
+        <h2>Services:</h2>
+        <p>✔ Real-Time URL Analysis – Instantly detect and classify malicious URLs using CNN-based deep learning.</p>
+        <p>✔ Threat Intelligence Reports – Provide detailed insights on detected threats, including risk levels and patterns. </p>
+        <p>✔ API for Developers – Enable integration of the detection system into other applications for automated security checks.</p>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contact" class="section">
+        <h2>Contact:</h2>
+        <p>📧 Email: deepseep@gmail.com</p>
+        <p>📞 Phone: 1234567889</p>
+    </div>
+
+</body>
+</html>
